@@ -34,9 +34,3 @@ Accéder au dossier du projet
 ```bash
 cd chatbot-platform-k8s
 ```
-Accéder à sa branche
-```bash
-git checkout -b feature/backend
-git checkout -b feature/frontend
-git checkout -b feature/k8s
-```
