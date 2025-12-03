@@ -1,0 +1,8 @@
+fastapi
+openai
+uvicorn[standard]
+python-dotenv
+pydantic_settings
+# Dépendances DB 
+sqlalchemy
+psycopg2-binary

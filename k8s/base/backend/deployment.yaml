@@ -1,0 +1,44 @@
+# Deploiement for the chatbot backend
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatbot-backend-deployment
+  labels:
+    app: chatbot-backend
+spec:
+  replicas: 2 # On peut augmenter ce nombre pour plus de résilience
+  selector:
+    matchLabels:
+      app: chatbot-backend
+  template:
+    metadata:
+      labels:
+        app: chatbot-backend
+    spec:
+      containers:
+      - name: chatbot-backend-container
+        image: chatbot-backend:v1 # L'image construite localement
+        imagePullPolicy: Never # Important pour les images locales
+        ports:
+        - containerPort: 8000 # Doit correspondre à EXPOSE 8000
+        env:
+          # 1. Injection du SYSTEM_PROMPT (non sensible) depuis la ConfigMap
+        - name: SYSTEM_PROMPT
+          valueFrom:
+            configMapKeyRef:
+              name: chatbot-backend-config # Nom de la ConfigMap
+              key: SYSTEM_PROMPT          # Nom de la clé à l'intérieur de la ConfigMap
+
+          # 2. Injection de l'OPENAI_API_KEY (sensible) depuis le Secret
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: chatbot-backend-secrets # Nom du Secret
+              key: OPENAI_API_KEY           # Nom de la clé à l'intérieur du Secret
+              
+          # 3. Injection de l'URL de la base de données (sensible) depuis le Secret
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: chatbot-backend-secrets # Nom du Secret
+              key: DATABASE_URL             # Nom de la clé à l'intérieur du Secret

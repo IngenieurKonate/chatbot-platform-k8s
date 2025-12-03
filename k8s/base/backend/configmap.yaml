@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: chatbot-backend-config
+data:
+  # SYSTEM_PROMPT : Ceci est le message de configuration de l'IA (Tâche n°1)
+  SYSTEM_PROMPT: "Tu es un assistant utile, concis et amical. Ton objectif est de répondre aux questions
+   techniques et de gestion de projet. Réponds toujours en français."

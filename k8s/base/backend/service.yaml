@@ -1,0 +1,21 @@
+# Ce fichier permet au autre services d'accéder au backend en interne en lui donnant une IP stable
+apiVersion: v1
+kind: Service
+metadata:
+  name: chatbot-backend-service
+  labels:
+    app: chatbot-backend
+spec:
+  # Sélectionne les Pods qui ont le label "app: chatbot-backend"
+  selector:
+    app: chatbot-backend
+  ports:
+    # 1. Le port du Service (port interne du cluster, utilisé par le Frontend)
+    - name: http
+      protocol: TCP
+      port: 80
+      # 2. Le port cible dans le conteneur du Pod
+      targetPort: 8000
+      nodePort: 30080 #le port d'accès externe 
+  # ClusterIP est le type par défaut et convient pour la communication interne
+  type: NodePort
