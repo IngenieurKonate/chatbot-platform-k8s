@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  # Backend Resources
+  - backend/configmap.yaml
+  - backend/secret.yaml
+  - backend/service.yaml
+  - backend/deployment.yaml
+
+  # Frontend Resources
+  - frontend/service.yaml
+  - frontend/deployment.yaml
+
+  # Database is intentionally excluded (managed by peer)
+  # - database/statefulset.yaml
