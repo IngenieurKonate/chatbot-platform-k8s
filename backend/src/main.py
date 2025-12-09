@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from .models import chatMessage
 from .services import save_message, get_ai_response
 import os 
@@ -7,6 +8,15 @@ import os
 app = FastAPI(
     title="chatbot backend",
     version="1.0.0"
+)
+
+# Configuration CORS : Autoriser le Frontend à communiquer avec le Backend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # En production, remplacez "*" par l'URL exacte du frontend
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 #basic endpoint for check if the app is online

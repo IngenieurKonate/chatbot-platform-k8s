@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatbot-frontend-deployment
+  labels:
+    app: chatbot-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chatbot-frontend
+  template:
+    metadata:
+      labels:
+        app: chatbot-frontend
+    spec:
+      containers:
+        - name: chatbot-frontend-container
+          image: chatbot-frontend:v1
+          imagePullPolicy: Never # Local Docker image
+          ports:
+            - containerPort: 3000
+          env:
+            # Note: In client-side React code, env vars must start with NEXT_PUBLIC_
+            # But here we might not strictly need them if we proxy via Nginx or if we hardcode localhost for this demo
+            # For K8s internal comms, we usually need a reverse proxy or Next.js API routes acting as proxy.
+            # But user just wants to "connect". Given standard simple setup:
+            - name: NEXT_PUBLIC_API_URL
+              value: "http://localhost:30080" # URL externe du backend via NodePort
